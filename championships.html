@@ -3,29 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чемпионаты | TitanX Bloxd SNG</title>
+    <title>Чемпионаты | TitanX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700;900&display=swap');
         body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; }
         .title-font { font-family: 'Orbitron', sans-serif; }
-        .card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); }
+        .header-line { border-bottom: 3px solid #ff0000; }
+        .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 15px; background: rgba(255,255,255,0.05); border-radius: 12px; transition: 0.3s; overflow: hidden; max-width: 50px; }
+        .nav-item:hover { max-width: 200px; background: rgba(255,255,255,0.15); border: 1px solid #ff0000; }
+        .nav-text { opacity: 0; white-space: nowrap; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        .nav-item:hover .nav-text { opacity: 1; }
+        .lang-btn.active { background: #ff0000; color: white; }
     </style>
 </head>
 <body>
-    <nav class="p-6 max-w-6xl mx-auto flex justify-between items-center">
-        <a href="index.html" class="text-2xl font-bold title-font uppercase">TITAN<span class="text-sky-400">X</span></a>
-        <a href="index.html" class="text-gray-400 hover:text-white transition uppercase text-xs font-bold tracking-widest">← На главную</a>
-    </nav>
+    <header class="header-line relative p-4 flex items-center justify-between">
+        <div class="flex items-center gap-6">
+            <div class="text-3xl font-black title-font tracking-tighter mr-8">TITAN<span class="text-red-600">X</span></div>
+            <nav class="flex gap-4">
+                <a href="index.html" class="nav-item"><span>🏠</span><span class="nav-text" id="nav-home">Главная</span></a>
+                <a href="news.html" class="nav-item"><span>📄</span><span class="nav-text" id="nav-news">Новости</span></a>
+                <a href="championships.html" class="nav-item border border-red-600/50"><span>🏆</span><span class="nav-text" id="nav-champs">Чемпионаты</span></a>
+            </nav>
+        </div>
+        <div class="flex gap-2 bg-white/5 p-1 rounded-lg">
+            <div onclick="setLang('ru')" id="btn-ru" class="lang-btn px-2 rounded cursor-pointer">RU</div>
+            <div onclick="setLang('ua')" id="btn-ua" class="lang-btn px-2 rounded cursor-pointer">UA</div>
+        </div>
+    </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-20 text-center">
-        <h1 class="text-5xl font-black title-font mb-10 uppercase italic text-purple-400">Чемпионаты</h1>
-        <div class="card p-12 border-dashed border-2 border-purple-500/20">
-            <i class="fa-solid fa-trophy text-6xl text-purple-500/20 mb-6"></i>
-            <p class="text-xl text-gray-400 font-medium">Тут пока что нет новых публикаций.</p>
-            <p class="text-gray-600 mt-2">Скоро мы объявим о первом турнире TitanX Cup!</p>
+    <main class="max-w-4xl mx-auto px-6 py-24 text-center">
+        <h1 class="text-6xl font-black title-font mb-10 italic uppercase text-red-600" id="page-title">Чемпионаты</h1>
+        <div class="p-20 border-2 border-dashed border-red-600/20 rounded-3xl">
+            <p class="text-2xl text-gray-500" id="no-pub">Тут пока что нет новых публикаций.</p>
         </div>
     </main>
+
+    <script>
+        const langData = {
+            ru: { navHome: "Главная", navNews: "Новости", navChamps: "Чемпионаты", pageTitle: "Чемпионаты", noPub: "Тут пока что нет новых публикаций." },
+            ua: { navHome: "Головна", navNews: "Новини", navChamps: "Чемпіонати", pageTitle: "Чемпіонати", noPub: "Тут поки що немає нових публікацій." }
+        };
+        function setLang(lang) {
+            localStorage.setItem('selectedLang', lang);
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            document.getElementById('nav-home').innerText = langData[lang].navHome;
+            document.getElementById('nav-news').innerText = langData[lang].navNews;
+            document.getElementById('nav-champs').innerText = langData[lang].navChamps;
+            document.getElementById('page-title').innerText = langData[lang].pageTitle;
+            document.getElementById('no-pub').innerText = langData[lang].noPub;
+        }
+        setLang(localStorage.getItem('selectedLang') || 'ru');
+    </script>
 </body>
 </html>
