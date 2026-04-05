@@ -8,35 +8,34 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; }
+        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; margin: 0; }
         .title-font { font-family: 'Orbitron', sans-serif; }
-        .header-line { border-bottom: 3px solid #ff0000; }
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 15px; background: rgba(255,255,255,0.05); border-radius: 12px; transition: 0.3s; overflow: hidden; max-width: 50px; }
-        .nav-item:hover { max-width: 200px; background: rgba(255,255,255,0.15); border: 1px solid #ff0000; }
-        .nav-text { opacity: 0; white-space: nowrap; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 70px; border-right: 2px solid #00d2ff; display: flex; flex-direction: column; align-items: center; padding-top: 30px; gap: 25px; z-index: 100; background: #0b0f1a; }
+        .nav-item { position: relative; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0, 210, 255, 0.05); border-radius: 12px; transition: 0.3s; cursor: pointer; }
+        .nav-item:hover { background: rgba(0, 210, 255, 0.2); width: 160px; justify-content: flex-start; padding-left: 15px; }
+        .nav-text { position: absolute; left: 55px; opacity: 0; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 13px; color: #00d2ff; }
         .nav-item:hover .nav-text { opacity: 1; }
-        .lang-btn.active { background: #ff0000; color: white; }
+        .lang-btn.active { background: #00d2ff; color: #0b0f1a; }
     </style>
 </head>
 <body>
-    <header class="header-line relative p-4 flex items-center justify-between">
-        <div class="flex items-center gap-6">
-            <div class="text-3xl font-black title-font tracking-tighter mr-8">TITAN<span class="text-red-600">X</span></div>
-            <nav class="flex gap-4">
-                <a href="index.html" class="nav-item"><span>🏠</span><span class="nav-text" id="nav-home">Главная</span></a>
-                <a href="news.html" class="nav-item"><span>📄</span><span class="nav-text" id="nav-news">Новости</span></a>
-                <a href="championships.html" class="nav-item border border-red-600/50"><span>🏆</span><span class="nav-text" id="nav-champs">Чемпионаты</span></a>
-            </nav>
-        </div>
-        <div class="flex gap-2 bg-white/5 p-1 rounded-lg">
-            <div onclick="setLang('ru')" id="btn-ru" class="lang-btn px-2 rounded cursor-pointer">RU</div>
-            <div onclick="setLang('ua')" id="btn-ua" class="lang-btn px-2 rounded cursor-pointer">UA</div>
+    <header class="h-[80px] border-b-2 border-[#00d2ff] px-8 flex items-center justify-between">
+        <div class="text-3xl font-black title-font uppercase">TITAN<span class="text-sky-400">X</span></div>
+        <div class="flex gap-2">
+            <div onclick="setLang('ru')" id="btn-ru" class="lang-btn px-2 cursor-pointer rounded">RU</div>
+            <div onclick="setLang('ua')" id="btn-ua" class="lang-btn px-2 cursor-pointer rounded">UA</div>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-6 py-24 text-center">
-        <h1 class="text-6xl font-black title-font mb-10 italic uppercase text-red-600" id="page-title">Чемпионаты</h1>
-        <div class="p-20 border-2 border-dashed border-red-600/20 rounded-3xl">
+    <nav class="sidebar">
+        <a href="index.html" class="nav-item"><span class="text-xl">🏠</span><span class="nav-text" id="nav-home">Главная</span></a>
+        <a href="news.html" class="nav-item"><span class="text-xl">📄</span><span class="nav-text" id="nav-news">Новости</span></a>
+        <a href="championships.html" class="nav-item" style="border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1);"><span class="text-xl">🏆</span><span class="nav-text" id="nav-champs">Чемпионаты</span></a>
+    </nav>
+
+    <main class="ml-[70px] py-24 text-center px-6">
+        <h1 class="text-6xl font-black title-font mb-10 italic uppercase text-sky-400" id="page-title">Чемпионаты</h1>
+        <div class="p-20 border-2 border-dashed border-sky-400/20 rounded-3xl max-w-3xl mx-auto">
             <p class="text-2xl text-gray-500" id="no-pub">Тут пока что нет новых публикаций.</p>
         </div>
     </main>
