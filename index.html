@@ -11,6 +11,10 @@
         body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
         .title-font { font-family: 'Orbitron', sans-serif; }
         
+        /* Кнопка наверх */
+        #backToTop { position: fixed; bottom: 30px; right: 30px; background: #00d2ff; color: #0b0f1a; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; z-index: 1000; box-shadow: 0 0 15px rgba(0,210,255,0.4); transition: 0.3s; }
+        #backToTop:hover { transform: scale(1.1); background: #fff; }
+
         .social-sidebar { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 100; }
         .social-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 24px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
         .social-icon:hover { transform: scale(1.1) translateX(5px); border-color: #00d2ff; }
@@ -27,36 +31,30 @@
 </head>
 <body>
 
-    <!-- Переключатель языков -->
+    <div id="backToTop" onclick="scrollToTop()"><i class="fa-solid fa-arrow-up"></i></div>
+
     <div class="lang-switcher flex gap-1">
         <div onclick="setLang('ru')" id="btn-ru" class="lang-btn active">RU</div>
         <div onclick="setLang('ua')" id="btn-ua" class="lang-btn">UA</div>
     </div>
 
-    <!-- Соцсети -->
     <div class="social-sidebar">
-        <a href="https://t.me/bloxdioSNGRU" target="_blank" class="social-icon tg-bg">
-            <i class="fab fa-telegram-plane text-white"></i>
-        </a>
-        <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="social-icon ds-bg">
-            <i class="fab fa-discord text-white"></i>
-        </a>
+        <a href="https://t.me/bloxdioSNGRU" target="_blank" class="social-icon tg-bg"><i class="fab fa-telegram-plane text-white"></i></a>
+        <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="social-icon ds-bg"><i class="fab fa-discord text-white"></i></a>
     </div>
 
     <nav class="p-6 flex justify-between items-center max-w-6xl mx-auto relative z-10">
         <div class="text-2xl font-bold title-font tracking-widest uppercase">TITAN<span class="text-sky-400">X</span></div>
         <div class="space-x-8 hidden md:flex font-bold text-xs tracking-widest uppercase">
-            <a href="#" class="hover:text-sky-400 transition" id="nav-home">Главная</a>
-            <a href="#news" class="hover:text-sky-400 transition" id="nav-news">Новости</a>
-            <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="bg-sky-500 px-5 py-2 rounded-full text-white" id="nav-join">Вступить</a>
+            <a href="index.html" class="text-sky-400" id="nav-home">Главная</a>
+            <a href="news.html" class="hover:text-sky-400 transition" id="nav-news">Новости</a>
+            <a href="championships.html" class="hover:text-sky-400 transition" id="nav-champs">Чемпионаты</a>
         </div>
     </nav>
 
     <header class="py-24 px-6 text-center relative">
         <h1 class="text-6xl md:text-8xl font-black title-font mb-6 tracking-tighter">TITANX <span class="text-sky-400 italic">SNG</span></h1>
-        <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12 font-medium" id="hero-desc">
-            Добро пожаловать в элитное сообщество Bloxd. Твой путь к вершине начинается здесь.
-        </p>
+        <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12 font-medium" id="hero-desc">Добро пожаловать в элитное сообщество Bloxd. Твой путь к вершине начинается здесь.</p>
         
         <div class="inline-flex flex-col md:flex-row items-center gap-6">
             <div class="bg-slate-900/90 backdrop-blur-xl px-8 py-5 rounded-2xl border border-slate-700 flex items-center gap-6 shadow-2xl">
@@ -78,24 +76,28 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <article class="card p-8">
+            <!-- Ссылка на новости -->
+            <a href="news.html" class="card p-8">
                 <div class="w-12 h-1 bg-sky-500 mb-6"></div>
                 <h3 class="text-2xl font-black mb-4 uppercase tracking-tight" id="n1-title">Запуск сайта</h3>
                 <p class="text-gray-400 leading-relaxed mb-6 text-sm" id="n1-text">Мы официально открываем наш портал. Здесь вы найдете всё: от правил до анонсов крупных турниров.</p>
-            </article>
+                <span class="text-sky-400 font-bold text-xs uppercase" id="read-more">Читать всё →</span>
+            </a>
 
-            <article class="card p-8">
+            <!-- Ссылка на чемпионаты -->
+            <a href="championships.html" class="card p-8">
                 <div class="w-12 h-1 bg-purple-500 mb-6"></div>
                 <h3 class="text-2xl font-black mb-4 uppercase tracking-tight" id="n2-title">Турнир SNG</h3>
-                <p class="text-gray-400 leading-relaxed mb-6 text-sm" id="n2-text">Готовьте свои скиллы! На следующей неделе стартует регистрация на первый сезон TitanX Cup.</p>
-            </article>
+                <p class="text-gray-400 leading-relaxed mb-6 text-sm" id="n2-text">Готовьте свои скиллы! В будущем мы планируем проводить свои турниры между игроками из СНГ.</p>
+                <span class="text-purple-400 font-bold text-xs uppercase" id="view-champs">Подробнее →</span>
+            </a>
 
-            <article class="card p-8 text-center flex flex-col items-center justify-center border-dashed border-2 border-sky-500/30">
+            <div class="card p-8 text-center flex flex-col items-center justify-center border-dashed border-2 border-sky-500/30">
                 <i class="fab fa-telegram text-4xl text-sky-400 mb-4"></i>
                 <h3 class="text-xl font-bold mb-2" id="n3-title">Наш Telegram</h3>
                 <p class="text-gray-400 text-sm mb-4" id="n3-text">Подписывайся, чтобы не пропустить важные новости!</p>
                 <a href="https://t.me/bloxdioSNGRU" class="text-sky-400 font-bold uppercase text-xs tracking-widest">Перейти</a>
-            </article>
+            </div>
         </div>
     </section>
 
@@ -106,51 +108,35 @@
     <script>
         const langData = {
             ru: {
-                navHome: "Главная",
-                navNews: "Новости",
-                navJoin: "Вступить",
+                navHome: "Главная", navNews: "Новости", navChamps: "Чемпионаты",
                 heroDesc: "Добро пожаловать в элитное сообщество Bloxd. Твой путь к вершине начинается здесь.",
-                ipLabel: "Название комнаты",
-                sectionNews: "Свежие новости",
-                n1Title: "Запуск сайта",
-                n1Text: "Мы официально открываем наш портал. Здесь вы найдете всё: от правил до анонсов крупных турниров.",
-                n2Title: "Турнир SNG",
-                n2Text: "Готовьте свои скиллы! На следующей неделе стартует регистрация на первый сезон TitanX Cup.",
-                n3Title: "Наш Telegram",
-                n3Text: "Подписывайся, чтобы не пропустить важные новости!",
+                ipLabel: "Название комнаты", sectionNews: "Свежие новости",
+                n1Title: "Запуск сайта", n1Text: "Мы официально открываем наш портал. Здесь вы найдете всё: от правил до анонсов крупных турниров.",
+                n2Title: "Турнир SNG", n2Text: "Готовьте свои скиллы! В будущем мы планируем проводить свои турниры между игроками из СНГ.",
+                n3Title: "Наш Telegram", n3Text: "Подписывайся, чтобы не пропустить важные новости!",
                 footerText: "Не является аффилиатом разработчиков игры.",
-                copyMsg: "Название скопировано!"
+                copyMsg: "Название скопировано!", readMore: "Читать всё →", viewChamps: "Подробнее →"
             },
             ua: {
-                navHome: "Головна",
-                navNews: "Новини",
-                navJoin: "Приєднатись",
+                navHome: "Головна", navNews: "Новини", navChamps: "Чемпіонати",
                 heroDesc: "Ласкаво просимо до елітної спільноти Bloxd. Твій шлях до вершини починається тут.",
-                ipLabel: "Назва кімнати",
-                sectionNews: "Останні новини",
-                n1Title: "Запуск сайту",
-                n1Text: "Ми офіційно відкриваємо наш портал. Тут ви знайдете все: від правил до анонсів великих турнірів.",
-                n2Title: "Турнір SNG",
-                n2Text: "Готуйте свої скіли! Наступного тижня стартує реєстрація на перший сезон TitanX Cup.",
-                n3Title: "Наш Telegram",
-                n3Text: "Підписуйся, щоб не пропустити важливі новини!",
+                ipLabel: "Назва кімнати", sectionNews: "Останні новини",
+                n1Title: "Запуск сайту", n1Text: "Ми офіційно відкриваємо наш портал. Тут ви знайдете все: від правил до анонсів великих турнірів.",
+                n2Title: "Турнір SNG", n2Text: "Готуйте свої скіли! В майбутньому ми плануємо проводити свої турніри між гравцями з СНД.",
+                n3Title: "Наш Telegram", n3Text: "Підписуйся, щоб не пропустити важливі новини!",
                 footerText: "Не є афіліатом розробників гри.",
-                copyMsg: "Назву скопійовано!"
+                copyMsg: "Назву скопійовано!", readMore: "Читати все →", viewChamps: "Докладніше →"
             }
         };
 
         function setLang(lang) {
             localStorage.setItem('selectedLang', lang);
-            
-            // Кнопки
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + lang).classList.add('active');
-
-            // Текст
             document.getElementById('nav-home').innerText = langData[lang].navHome;
             document.getElementById('nav-news').innerText = langData[lang].navNews;
-            document.getElementById('nav-join').innerText = langData[lang].navJoin;
-            document.getElementById('hero-desc').innerHTML = langData[lang].heroDesc;
+            document.getElementById('nav-champs').innerText = langData[lang].navChamps;
+            document.getElementById('hero-desc').innerText = langData[lang].heroDesc;
             document.getElementById('ip-label').innerText = langData[lang].ipLabel;
             document.getElementById('section-news').innerText = langData[lang].sectionNews;
             document.getElementById('n1-title').innerText = langData[lang].n1Title;
@@ -160,11 +146,25 @@
             document.getElementById('n3-title').innerText = langData[lang].n3Title;
             document.getElementById('n3-text').innerText = langData[lang].n3Text;
             document.getElementById('footer-text').innerText = langData[lang].footerText;
+            document.getElementById('read-more').innerText = langData[lang].readMore;
+            document.getElementById('view-champs').innerText = langData[lang].viewChamps;
         }
 
-        // Загрузка языка при старте
         const savedLang = localStorage.getItem('selectedLang') || 'ru';
         setLang(savedLang);
+
+        window.onscroll = function() {
+            const btn = document.getElementById("backToTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                btn.style.display = "flex";
+            } else {
+                btn.style.display = "none";
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
         function copyIp() {
             navigator.clipboard.writeText("lobby.bloxd.io (TitanX)");
