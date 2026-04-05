@@ -8,76 +8,71 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;700;900&display=swap');
-        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; scroll-behavior: smooth; margin: 0; }
+        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; }
         .title-font { font-family: 'Orbitron', sans-serif; }
         
-        /* Красная линия под шапкой */
-        .header-line { border-bottom: 3px solid #ff0000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.3); }
+        /* Линии темы */
+        .line-blue { border-color: #00d2ff; box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
 
-        /* Навигация слева */
-        .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 15px; background: rgba(255,255,255,0.05); border-radius: 12px; transition: 0.3s; overflow: hidden; max-width: 50px; }
-        .nav-item:hover { max-width: 200px; background: rgba(255,255,255,0.15); border: 1px solid #ff0000; }
-        .nav-text { opacity: 0; white-space: nowrap; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 14px; }
+        /* Левое вертикальное меню */
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 70px; border-right: 2px solid #00d2ff; display: flex; flex-direction: column; align-items: center; padding-top: 30px; gap: 25px; z-index: 100; background: #0b0f1a; }
+        .nav-item { position: relative; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0, 210, 255, 0.05); border-radius: 12px; transition: 0.3s; cursor: pointer; border: 1px solid transparent; }
+        .nav-item:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; width: 160px; justify-content: flex-start; padding-left: 15px; }
+        .nav-text { position: absolute; left: 55px; opacity: 0; white-space: nowrap; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 13px; color: #00d2ff; pointer-events: none; }
         .nav-item:hover .nav-text { opacity: 1; }
+
+        /* Переключатель языков */
+        .lang-btn { padding: 4px 10px; cursor: pointer; border-radius: 5px; font-size: 12px; font-weight: 900; transition: 0.3s; border: 1px solid transparent; }
+        .lang-btn.active { background: #00d2ff; color: #0b0f1a; }
 
         /* Соцсети справа */
         .social-sidebar { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 100; }
         .social-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         .social-icon:hover { transform: scale(1.1); filter: brightness(1.2); }
-        .tg-bg { background: #0088cc; }
-        .ds-bg { background: #5865F2; }
-
-        /* Кнопка наверх */
-        #backToTop { position: fixed; bottom: 30px; right: 30px; background: #ff0000; color: white; width: 50px; height: 50px; border-radius: 50%; display: none; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; z-index: 1000; transition: 0.3s; }
-        
-        .lang-switcher { position: absolute; right: 25px; top: 20px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 8px; }
-        .lang-btn { padding: 4px 10px; cursor: pointer; border-radius: 5px; font-size: 12px; font-weight: 900; }
-        .lang-btn.active { background: #ff0000; color: white; }
     </style>
 </head>
 <body>
 
-    <header class="header-line relative p-4 flex items-center justify-between">
-        <div class="flex items-center gap-6">
-            <div class="text-3xl font-black title-font tracking-tighter mr-8">TITAN<span class="text-red-600">X</span></div>
-            
-            <nav class="flex gap-4">
-                <a href="index.html" class="nav-item border border-red-600/50">
-                    <span class="text-xl">🏠</span>
-                    <span class="nav-text" id="nav-home">Главная</span>
-                </a>
-                <a href="news.html" class="nav-item">
-                    <span class="text-xl">📄</span>
-                    <span class="nav-text" id="nav-news">Новости</span>
-                </a>
-                <a href="championships.html" class="nav-item">
-                    <span class="text-xl">🏆</span>
-                    <span class="nav-text" id="nav-champs">Чемпионаты</span>
-                </a>
-            </nav>
-        </div>
-
-        <div class="lang-switcher flex gap-1">
+    <!-- Верхняя шапка -->
+    <header class="h-[80px] border-b-2 line-blue relative px-8 flex items-center justify-between">
+        <div class="text-3xl font-black title-font tracking-tighter uppercase">TITAN<span class="text-sky-400">X</span></div>
+        <div class="flex gap-2">
             <div onclick="setLang('ru')" id="btn-ru" class="lang-btn">RU</div>
             <div onclick="setLang('ua')" id="btn-ua" class="lang-btn">UA</div>
         </div>
     </header>
 
+    <!-- Левое меню -->
+    <nav class="sidebar">
+        <a href="index.html" class="nav-item" style="border-color: #00d2ff; background: rgba(0, 210, 255, 0.1);">
+            <span class="text-xl">🏠</span>
+            <span class="nav-text" id="nav-home">Главная</span>
+        </a>
+        <a href="news.html" class="nav-item">
+            <span class="text-xl">📄</span>
+            <span class="nav-text" id="nav-news">Новости</span>
+        </a>
+        <a href="championships.html" class="nav-item">
+            <span class="text-xl">🏆</span>
+            <span class="nav-text" id="nav-champs">Чемпионаты</span>
+        </a>
+    </nav>
+
+    <!-- Соцсети справа -->
     <div class="social-sidebar">
-        <a href="https://t.me/bloxdioSNGRU" target="_blank" class="social-icon tg-bg"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="social-icon ds-bg"><i class="fab fa-discord"></i></a>
+        <a href="https://t.me/bloxdioSNGRU" target="_blank" class="social-icon bg-[#0088cc]"><i class="fab fa-telegram-plane text-white"></i></a>
+        <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="social-icon bg-[#5865F2]"><i class="fab fa-discord text-white"></i></a>
     </div>
 
-    <div id="backToTop" onclick="scrollToTop()"><i class="fa-solid fa-arrow-up"></i></div>
-
-    <main class="py-24 text-center">
-        <h1 class="text-7xl md:text-9xl font-black title-font mb-6 tracking-tighter italic">TITANX <span class="text-red-600">SNG</span></h1>
-        <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12" id="hero-desc">Добро пожаловать в элитное сообщество Bloxd. Твой путь к вершине начинается здесь.</p>
+    <!-- Основной контент -->
+    <main class="ml-[70px] pt-20 text-center px-6">
+        <h1 class="text-7xl md:text-9xl font-black title-font mb-6 tracking-tighter italic uppercase">TITANX <span class="text-sky-400">SNG</span></h1>
+        <p class="text-gray-400 text-xl max-w-2xl mx-auto mb-12 font-medium" id="hero-desc">Добро пожаловать в элитное сообщество Bloxd.</p>
         
         <div class="inline-flex flex-col md:flex-row items-center gap-6">
-            <div class="bg-slate-900/90 backdrop-blur-xl px-8 py-5 rounded-2xl border border-red-600/30 flex items-center gap-6 shadow-2xl">
-                <code class="text-white font-bold text-xl tracking-widest">lobby.bloxd.io (TitanX)</code>
-                <button onclick="copyIp()" class="bg-red-600 text-white w-12 h-12 rounded-xl hover:scale-110 transition"><i class="fa-regular fa-copy"></i></button>
+            <div class="bg-slate-900/90 backdrop-blur-xl px-8 py-5 rounded-2xl border border-sky-400/30 flex items-center gap-6 shadow-2xl">
+                <code class="text-sky-400 font-bold text-xl tracking-widest">lobby.bloxd.io (TitanX)</code>
+                <button onclick="copyIp()" class="bg-sky-500 text-white w-12 h-12 rounded-xl hover:scale-110 transition"><i class="fa-regular fa-copy"></i></button>
             </div>
         </div>
     </main>
@@ -92,21 +87,13 @@
             localStorage.setItem('selectedLang', lang);
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
             document.getElementById('btn-' + lang).classList.add('active');
-            
             document.getElementById('nav-home').innerText = langData[lang].navHome;
             document.getElementById('nav-news').innerText = langData[lang].navNews;
             document.getElementById('nav-champs').innerText = langData[lang].navChamps;
             document.getElementById('hero-desc').innerText = langData[lang].heroDesc;
         }
 
-        const savedLang = localStorage.getItem('selectedLang') || 'ru';
-        setLang(savedLang);
-
-        window.onscroll = function() {
-            const btn = document.getElementById("backToTop");
-            btn.style.display = (window.scrollY > 300) ? "flex" : "none";
-        };
-        function scrollToTop() { window.scrollTo({top: 0, behavior: 'smooth'}); }
+        setLang(localStorage.getItem('selectedLang') || 'ru');
         function copyIp() {
             navigator.clipboard.writeText("lobby.bloxd.io (TitanX)");
             alert(langData[localStorage.getItem('selectedLang') || 'ru'].copyMsg);
