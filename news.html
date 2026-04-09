@@ -17,23 +17,21 @@
         .nav-item:hover .nav-emoji { filter: grayscale(0%); opacity: 1; }
         .nav-text { position: absolute; left: 55px; opacity: 0; transition: 0.3s; font-weight: 800; text-transform: uppercase; font-size: 13px; color: #00d2ff; }
         .nav-item:hover .nav-text { opacity: 1; }
-        .news-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .news-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; overflow: hidden; display: flex; flex-direction: column; }
         .news-card:hover { border-color: #00d2ff; transform: translateY(-5px); }
     </style>
 </head>
 <body>
     <header class="h-[80px] border-b-2 border-[#00d2ff] px-8 flex items-center justify-between relative z-[110] bg-[#0b0f1a]">
         <div class="text-3xl font-black title-font uppercase italic">BLOXD<span class="text-sky-400">X</span></div>
-        <div id="loading-status" class="text-xs text-sky-400 animate-pulse font-bold uppercase tracking-widest">Загрузка...</div>
+        <div id="loading-status" class="text-xs text-sky-400 animate-pulse font-bold uppercase tracking-widest">Обновление...</div>
     </header>
     <nav class="sidebar">
         <a href="index.html" class="nav-item"><span class="nav-emoji">🏠</span><span class="nav-text">Главная</span></a>
-        <a href="news.html" class="nav-item" style="border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1);"><span class="nav-emoji">📄</span><span class="nav-text">Новости</span></a>
-        <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text">Чемпионаты</span></a>
-    </nav><main class="ml-[70px] py-16 px-6">
+        <a href="news.html" class="nav-item" style="border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1);"><span cla<main class="ml-[70px] py-16 px-6">
         <h1 class="text-6xl font-black title-font mb-12 italic uppercase text-center">Новости</h1>
         <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            <!-- Сюда попадут новости -->
+            <!-- Новости появятся здесь -->
         </div>
     </main>
     <script>
@@ -57,20 +55,16 @@
                         const meta = parts[1];
                         const body = parts[2] || "";
                         const titleMatch = meta.match(/title:\s*(.*)/);
-                        const title = titleMatch ? titleMatch[1].replace(/"/g, '') : "Новость";
+                        const title = titleMatch ? titleMatch[1].replace(/"/g, '').trim() : "Новость";
+                        const imgMatch = meta.match(/image:\s*(.*)/);
+                        const imgPath = imgMatch ? imgMatch[1].replace(/"/g, '').trim() : null;
+
                         const card = document.createElement('div');
-                        card.className = 'news-card p-8 min-h-[300px]';
-                        card.innerHTML = `<div><div class="w-10 h-1 bg-sky-500 mb-6"></div>
+                        card.className = 'news-card';
+                        let imgHtml = imgPath ? `<img src="${imgPath}" class="w-full h-48 object-cover border-b border-white/5">` : '';
+                        card.innerHTML = `${imgHtml}<div class="p-8">
+                            <div class="w-10 h-1 bg-sky-500 mb-6"></div>
                             <h3 class="text-2xl font-black mb-4 uppercase tracking-tight">${title}</h3>
-                            <div class="text-gray-400 leading-relaxed text-sm mb-6">${body.substring(0, 200)}</div></div>
-                            <div class="text-sky-400 font-bold text-xs uppercase tracking-widest mt-auto">Опубликовано</div>`;
-                        container.appendChild(card);
-                    }
-                }
-                status.innerText = "Обновлено";
-            } catch (e) { status.innerText = "Ошибка"; }
-        }
-        loadNews();
-    </script>
-</body>
-</html>
+                            <div class="text-gray-400 leading-relaxed text-sm mb-6">${body.substring(0, 150)}...</div>
+                            <div class="text-sky-400 font-bold text-xs uppercase tracking-widest mt-auto underline">Читать полностью</div>
+                        </div>`;
