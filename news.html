@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новости | TitanX</title>
+    <title>Новости | BloxdX</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -11,51 +11,66 @@
         body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; margin: 0; }
         .title-font { font-family: 'Orbitron', sans-serif; }
         .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 70px; border-right: 2px solid #00d2ff; display: flex; flex-direction: column; align-items: center; padding-top: 30px; gap: 25px; z-index: 100; background: #0b0f1a; }
-        .nav-item { position: relative; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(0, 210, 255, 0.05); border-radius: 12px; transition: 0.3s; cursor: pointer; }
-        .nav-item:hover { background: rgba(0, 210, 255, 0.2); width: 160px; justify-content: flex-start; padding-left: 15px; }
-        .nav-text { position: absolute; left: 55px; opacity: 0; transition: 0.3s; font-weight: bold; text-transform: uppercase; font-size: 13px; color: #00d2ff; }
+        .nav-item { position: relative; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.03); border-radius: 12px; transition: 0.3s; cursor: pointer; }
+        .nav-emoji { font-size: 20px; filter: grayscale(100%); opacity: 0.5; transition: 0.3s; }
+        .nav-item:hover { background: rgba(0, 210, 255, 0.15); border-color: #00d2ff; width: 170px; justify-content: flex-start; padding-left: 15px; border: 1px solid #00d2ff; }
+        .nav-item:hover .nav-emoji { filter: grayscale(0%); opacity: 1; }
+        .nav-text { position: absolute; left: 55px; opacity: 0; transition: 0.3s; font-weight: 800; text-transform: uppercase; font-size: 13px; color: #00d2ff; }
         .nav-item:hover .nav-text { opacity: 1; }
-        .lang-btn.active { background: #00d2ff; color: #0b0f1a; }
+        .news-card { background: rgba(30, 41, 59, 0.4); border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: space-between; }
+        .news-card:hover { border-color: #00d2ff; transform: translateY(-5px); }
     </style>
 </head>
 <body>
-    <header class="h-[80px] border-b-2 border-[#00d2ff] px-8 flex items-center justify-between">
-        <div class="text-3xl font-black title-font uppercase">TITAN<span class="text-sky-400">X</span></div>
-        <div class="flex gap-2">
-            <div onclick="setLang('ru')" id="btn-ru" class="lang-btn px-2 cursor-pointer rounded">RU</div>
-            <div onclick="setLang('ua')" id="btn-ua" class="lang-btn px-2 cursor-pointer rounded">UA</div>
-        </div>
+    <header class="h-[80px] border-b-2 border-[#00d2ff] px-8 flex items-center justify-between relative z-[110] bg-[#0b0f1a]">
+        <div class="text-3xl font-black title-font uppercase italic">BLOXD<span class="text-sky-400">X</span></div>
+        <div id="loading-status" class="text-xs text-sky-400 animate-pulse font-bold uppercase tracking-widest">Загрузка...</div>
     </header>
-
     <nav class="sidebar">
-        <a href="index.html" class="nav-item"><span class="text-xl">🏠</span><span class="nav-text" id="nav-home">Главная</span></a>
-        <a href="news.html" class="nav-item" style="border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1);"><span class="text-xl">📄</span><span class="nav-text" id="nav-news">Новости</span></a>
-        <a href="championships.html" class="nav-item"><span class="text-xl">🏆</span><span class="nav-text" id="nav-champs">Чемпионаты</span></a>
-    </nav>
-
-    <main class="ml-[70px] py-24 text-center px-6">
-        <h1 class="text-6xl font-black title-font mb-10 italic uppercase" id="page-title">Новости</h1>
-        <div class="p-20 border-2 border-dashed border-sky-400/20 rounded-3xl max-w-3xl mx-auto">
-            <p class="text-2xl text-gray-500" id="no-pub">Тут пока что нет новых публикаций.</p>
+        <a href="index.html" class="nav-item"><span class="nav-emoji">🏠</span><span class="nav-text">Главная</span></a>
+        <a href="news.html" class="nav-item" style="border: 1px solid #00d2ff; background: rgba(0, 210, 255, 0.1);"><span class="nav-emoji">📄</span><span class="nav-text">Новости</span></a>
+        <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text">Чемпионаты</span></a>
+    </nav><main class="ml-[70px] py-16 px-6">
+        <h1 class="text-6xl font-black title-font mb-12 italic uppercase text-center">Новости</h1>
+        <div id="news-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Сюда попадут новости -->
         </div>
     </main>
-
     <script>
-        const langData = {
-            ru: { navHome: "Главная", navNews: "Новости", navChamps: "Чемпионаты", pageTitle: "Новости", noPub: "Тут пока что нет новых публикаций." },
-            ua: { navHome: "Головна", navNews: "Новини", navChamps: "Чемпіонати", pageTitle: "Новини", noPub: "Тут поки що немає нових публікацій." }
-        };
-        function setLang(lang) {
-            localStorage.setItem('selectedLang', lang);
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + lang).classList.add('active');
-            document.getElementById('nav-home').innerText = langData[lang].navHome;
-            document.getElementById('nav-news').innerText = langData[lang].navNews;
-            document.getElementById('nav-champs').innerText = langData[lang].navChamps;
-            document.getElementById('page-title').innerText = langData[lang].pageTitle;
-            document.getElementById('no-pub').innerText = langData[lang].noPub;
+        const GITHUB_USER = 'ket20091976-maker';
+        const GITHUB_REPO = 'titanx-bloxd-sng';
+        const NEWS_PATH = '_posts/news';
+
+        async function loadNews() {
+            const container = document.getElementById('news-container');
+            const status = document.getElementById('loading-status');
+            try {
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${NEWS_PATH}`);
+                const files = await response.json();
+                if (!Array.isArray(files)) return;
+                container.innerHTML = '';
+                for (const file of files.reverse()) {
+                    if (file.name.endsWith('.md')) {
+                        const contentRes = await fetch(file.download_url);
+                        const rawText = await contentRes.text();
+                        const parts = rawText.split('---');
+                        const meta = parts[1];
+                        const body = parts[2] || "";
+                        const titleMatch = meta.match(/title:\s*(.*)/);
+                        const title = titleMatch ? titleMatch[1].replace(/"/g, '') : "Новость";
+                        const card = document.createElement('div');
+                        card.className = 'news-card p-8 min-h-[300px]';
+                        card.innerHTML = `<div><div class="w-10 h-1 bg-sky-500 mb-6"></div>
+                            <h3 class="text-2xl font-black mb-4 uppercase tracking-tight">${title}</h3>
+                            <div class="text-gray-400 leading-relaxed text-sm mb-6">${body.substring(0, 200)}</div></div>
+                            <div class="text-sky-400 font-bold text-xs uppercase tracking-widest mt-auto">Опубликовано</div>`;
+                        container.appendChild(card);
+                    }
+                }
+                status.innerText = "Обновлено";
+            } catch (e) { status.innerText = "Ошибка"; }
         }
-        setLang(localStorage.getItem('selectedLang') || 'ru');
+        loadNews();
     </script>
 </body>
 </html>
