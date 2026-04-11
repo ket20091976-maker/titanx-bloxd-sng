@@ -13,83 +13,82 @@
         .title-font { font-family: 'Orbitron', sans-serif; }
         
         /* Экран выбора языка */
-        #lang-overlay { position: fixed; inset: 0; background: rgba(11, 15, 26, 0.6); backdrop-filter: blur(25px); z-index: 2000; display: none; align-items: center; justify-content: center; }
-        .lang-card { background: rgba(30, 41, 59, 0.8); border: 1px solid #00d2ff; padding: 30px; border-radius: 30px; text-align: center; box-shadow: 0 0 30px rgba(0, 210, 255, 0.3); }
+        #lang-overlay { position: fixed; inset: 0; background: rgba(11, 15, 26, 0.4); backdrop-filter: blur(40px); z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .lang-card { background: rgba(15, 23, 42, 0.9); border: 2px solid #00d2ff; padding: 40px; border-radius: 40px; text-align: center; box-shadow: 0 0 50px rgba(0, 210, 255, 0.3); width: 90%; max-width: 400px; }
         
-        /* Боковое меню */
-        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 75px; border-right: 1px solid rgba(0,210,255,0.2); display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 15px; background: #0b0f1a; z-index: 100; }
-        .nav-item { width: 65px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748b; text-decoration: none; border-radius: 10px; transition: 0.2s; }
-        .nav-item:hover, .nav-item.active { color: #00d2ff; background: rgba(0, 210, 255, 0.05); }
-        .nav-emoji { font-size: 22px; margin-bottom: 2px; }
-        .nav-text { font-size: 8px; font-weight: bold; text-transform: lowercase; text-align: center; line-height: 1; }
+        /* Боковое меню (Статичное) */
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 80px; border-right: 1px solid rgba(0,210,255,0.2); display: flex; flex-direction: column; align-items: center; gap: 10px; padding-top: 20px; background: #0b0f1a; z-index: 100; }
+        .nav-item { width: 70px; height: 60px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #64748b; text-decoration: none; text-align: center; }
+        .nav-item.active, .nav-item:hover { color: #00d2ff; }
+        .nav-emoji { font-size: 22px; line-height: 1; margin-bottom: 4px; }
+        .nav-text { font-size: 9px; font-weight: bold; text-transform: lowercase; }
 
-        /* Футер */
-        footer { border-top: 1px solid rgba(0,210,255,0.1); padding: 30px; text-align: center; color: #475569; margin-left: 75px; }
-        .foot-link { color: #64748b; text-decoration: none; font-size: 11px; margin: 0 10px; transition: 0.3s; }
-        .foot-link:hover { color: #00d2ff; }
-        
         .header-line { border-bottom: 2px solid #00d2ff; }
-        .news-card { background: rgba(30, 41, 59, 0.3); border-radius: 20px; border: 1px solid rgba(0,210,255,0.1); overflow: hidden; transition: 0.3s; }
-        .news-card:hover { border-color: #00d2ff; }
+        footer { border-top: 1px solid rgba(0,210,255,0.1); padding: 40px; text-align: center; margin-left: 80px; }
+        .foot-link { color: #475569; text-decoration: none; font-size: 12px; margin: 0 15px; font-weight: bold; transition: 0.3s; }
+        .foot-link:hover { color: #00d2ff; }
+        .news-card { background: rgba(30, 41, 59, 0.4); border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; transition: 0.3s; }
     </style>
 </head>
 <body>
 
-    <!-- Оверлей выбора языка -->
-    <div id="lang-overlay" style="display: flex;">
+    <!-- Экран выбора языка -->
+    <div id="lang-overlay">
         <div class="lang-card">
-            <h2 class="text-xl font-black mb-6 uppercase tracking-tighter italic">Select Language / Выберите язык / Виберіть мову</h2>
-            <div class="flex flex-col gap-3">
-                <button onclick="confirmLang('en')" class="bg-slate-900 border border-sky-900 p-4 rounded-2xl hover:bg-sky-600 font-bold transition">🇺🇸 English</button>
-                <button onclick="confirmLang('ru')" class="bg-slate-900 border border-sky-900 p-4 rounded-2xl hover:bg-sky-600 font-bold transition">🇷🇺 Русский</button>
-                <button onclick="confirmLang('ua')" class="bg-slate-900 border border-sky-900 p-4 rounded-2xl hover:bg-sky-600 font-bold transition">🇺🇦 Українська</button>
+            <h2 class="text-xl font-black mb-2 title-font text-sky-400">CHOOSE LANGUAGE</h2>
+            <h2 class="text-lg font-bold mb-2">ВЫБЕРИТЕ ЯЗЫК</h2>
+            <h2 class="text-lg font-bold mb-8">ВИБЕРІТЬ МОВУ</h2>
+            <div class="flex flex-col gap-4">
+                <button onclick="confirmLang('en')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-bold flex items-center justify-center gap-3 transition">🇺🇸 English</button>
+                <button onclick="confirmLang('ru')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-bold flex items-center justify-center gap-3 transition">🇷🇺 Русский</button>
+                <button onclick="confirmLang('ua')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-bold flex items-center justify-center gap-3 transition">🇺🇦 Українська</button>
             </div>
         </div>
     </div>
 
     <header class="h-[80px] header-line px-8 flex items-center justify-between sticky top-0 bg-[#0b0f1a] z-[110]">
-        <div class="text-3xl font-black title-font italic uppercase tracking-tighter text-white">BLOXD<span class="text-sky-400">X</span></div>
-        <button onclick="showLangSelect()" class="bg-white/5 w-10 h-10 rounded-full flex items-center justify-center border border-white/10 hover:border-sky-400 transition">🌐</button>
+        <div class="text-3xl font-black title-font italic uppercase tracking-tighter">BLOXD<span class="text-sky-400">X</span></div>
+        <button onclick="showLangSelect()" id="current-lang-icon" class="text-xl bg-white/5 w-12 h-12 rounded-2xl border border-white/10 flex items-center justify-center">🌐</button>
     </header>
 
     <nav class="sidebar">
-        <a href="index.html" class="nav-item active">
-            <span class="nav-emoji">🏠</span><span class="nav-text">home</span>
-        </a>
+        <a href="index.html" class="nav-item active"><span class="nav-emoji">🏠</span><span class="nav-text">home</span></a>
         <a href="news.html" class="nav-item"><span class="nav-emoji">🌍</span><span class="nav-text">news</span></a>
         <a href="builds.html" class="nav-item"><span class="nav-emoji">🏗</span><span class="nav-text">builds</span></a>
         <a href="worlds.html" class="nav-item"><span class="nav-emoji">✨</span><span class="nav-text">worlds</span></a>
         <a href="mods.html" class="nav-item"><span class="nav-emoji">🧩</span><span class="nav-text">mods</span></a>
         <a href="partners.html" class="nav-item"><span class="nav-emoji">🤝</span><span class="nav-text">partners</span></a>
         <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text">champs</span></a>
-    </nav>
-<main class="ml-[75px] p-8">
-        <div class="py-10">
-            <h1 class="text-6xl font-black title-font italic uppercase leading-none mb-2">BLOXD<span class="text-sky-400">X</span></h1>
-            <p class="text-sky-400 font-bold tracking-[0.4em] text-[10px] uppercase opacity-70">SNG Elite Portal</p>
+    </nav><main class="ml-[80px] p-8">
+        <div class="py-12">
+            <h1 class="text-6xl md:text-8xl font-black title-font mb-2 italic uppercase leading-none">BLOXD<span class="text-sky-400">X</span></h1>
+            <p class="text-sky-400 font-bold tracking-[0.4em] text-[10px] uppercase opacity-60">Elite SNG Community Portal</p>
         </div>
 
         <div class="max-w-6xl">
-            <h2 id="recent-title" class="text-2xl font-black uppercase mb-8 border-l-4 border-sky-500 pl-4">Свежие новости</h2>
-            <div id="latest-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="text-sky-400 animate-pulse font-bold uppercase text-xs">Загрузка ленты...</div>
+            <div class="flex items-center gap-4 mb-10">
+                <h2 id="recent-title" class="text-2xl font-black uppercase border-l-4 border-sky-500 pl-4 tracking-tight">Свежие новости</h2>
+            </div>
+            
+            <div id="latest-container" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-gray-600 animate-pulse font-bold text-xs uppercase italic">Синхронизация с сервером...</div>
             </div>
         </div>
     </main>
 
     <footer>
-        <div class="flex justify-center flex-wrap gap-4">
+        <div class="flex justify-center gap-8 mb-6">
             <a href="https://t.me/Dzazcc" target="_blank" class="foot-link" id="foot-collab">Сотрудничество</a>
             <a href="https://t.me/Dzazcc" target="_blank" class="foot-link" id="foot-contact">Связаться с нами</a>
         </div>
-        <p class="mt-6 opacity-30 text-[9px] uppercase tracking-widest">© 2024 BloxdX Official. Created with love for SNG community.</p>
+        <p class="text-[9px] uppercase tracking-[0.3em] opacity-20">© 2024 BloxdX Official Portal. All rights reserved.</p>
     </footer>
 
     <script>
-        const translations = {
-            ru: { recent: "Свежие новости", collab: "Сотрудничество", contact: "Связаться с нами" },
-            ua: { recent: "Останні новини", collab: "Співпраця", contact: "Зв'язатися з нами" },
-            en: { recent: "Latest News", collab: "Collaboration", contact: "Contact Us" }
+        const langConfigs = {
+            ru: { recent: "Свежие новости", collab: "Сотрудничество", contact: "Связаться с нами", flag: "🇷🇺" },
+            ua: { recent: "Останні новини", collab: "Співпраця", contact: "Зв'язатися з нами", flag: "🇺🇦" },
+            en: { recent: "Latest News", collab: "Collaboration", contact: "Contact Us", flag: "🇺🇸" }
         };
 
         function confirmLang(lang) {
@@ -103,60 +102,61 @@
         }
 
         function applyLang(lang) {
-            const t = translations[lang] || translations.en;
-            document.getElementById('recent-title').innerText = t.recent;
-            document.getElementById('foot-collab').innerText = t.collab;
-            document.getElementById('foot-contact').innerText = t.contact;
+            const cfg = langConfigs[lang] || langConfigs.en;
+            document.getElementById('recent-title').innerText = cfg.recent;
+            document.getElementById('foot-collab').innerText = cfg.collab;
+            document.getElementById('foot-contact').innerText = cfg.contact;
+            document.getElementById('current-lang-icon').innerText = cfg.flag;
         }
 
+        // Проверка при заходе
         const savedLang = localStorage.getItem('selectedLang');
         if (savedLang) {
             document.getElementById('lang-overlay').style.display = 'none';
             applyLang(savedLang);
         }
 
-        async function loadAllNews() {
-            const sections = ['news', 'builds', 'worlds', 'mods', 'partners', 'champs', 'rules'];
+        async function loadAllPosts() {
+            const cats = ['news', 'builds', 'worlds', 'mods', 'partners', 'champs'];
             const container = document.getElementById('latest-container');
-            let allPosts = [];
+            let all = [];
 
-            for (const section of sections) {
+            for (const cat of cats) {
                 try {
-                    const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${section}`);
+                    const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${cat}`);
                     const files = await res.json();
                     if (Array.isArray(files)) {
-                        for (const file of files) {
-                            const postRes = await fetch(file.download_url);
-                            const text = await postRes.text();
-                            const parts = text.split('---');
-                            const meta = parts[1];
+                        for (const f of files) {
+                            const pRes = await fetch(f.download_url);
+                            const txt = await pRes.text();
+                            const meta = txt.split('---')[1];
                             const title = meta.match(/title:\s*(.*)/)[1].replace(/"/g, '');
-                            const image = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
-                            allPosts.push({ title, image, date: file.name });
+                            const img = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
+                            all.push({ title, img, date: f.name });
                         }
                     }
                 } catch (e) {}
             }
 
-            allPosts.sort((a, b) => b.date.localeCompare(a.date));
-            const displayPosts = allPosts.slice(0, 3);
+            all.sort((a, b) => b.date.localeCompare(a.date));
+            const top3 = all.slice(0, 3);
 
-            if (displayPosts.length === 0) {
-                container.innerHTML = '<div class="text-gray-600 text-xs italic">Пока публикаций нет. Будь первым!</div>';
+            if (top3.length === 0) {
+                container.innerHTML = '<div class="text-gray-700 text-sm italic col-span-full">Нет новых публикаций.</div>';
                 return;
             }
 
-            container.innerHTML = displayPosts.map(p => `
+            container.innerHTML = top3.map(p => `
                 <div class="news-card">
-                    ${p.image ? `<img src="${p.image}" class="w-full h-44 object-cover">` : '<div class="h-44 bg-slate-900 flex items-center justify-center text-[10px] text-gray-700 font-black tracking-widest">NO IMAGE</div>'}
-                    <div class="p-5">
-                        <div class="w-8 h-1 bg-sky-500 mb-4 opacity-50"></div>
-                        <h3 class="font-bold text-sm uppercase leading-tight text-gray-200">${p.title}</h3>
+                    ${p.img ? `<img src="${p.img}" class="w-full h-48 object-cover border-b border-white/5">` : '<div class="h-48 bg-slate-900/50 flex items-center justify-center text-[10px] text-gray-800 font-bold">NO MEDIA</div>'}
+                    <div class="p-6">
+                        <div class="w-8 h-1 bg-sky-500 mb-4"></div>
+                        <h3 class="font-black text-sm uppercase leading-tight tracking-tight">${p.title}</h3>
                     </div>
                 </div>
             `).join('');
         }
-        loadAllNews();
+        loadAllPosts();
     </script>
 </body>
 </html>
