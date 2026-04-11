@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Новости игры | BloxdX</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        .title-font { font-family: 'Orbitron', sans-serif; }
+        .line-blue { border-bottom: 2px solid #00d2ff; }
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 95px; border-right: 1px solid rgba(0,210,255,0.3); display: flex; flex-direction: column; align-items: center; gap: 5px; padding-top: 15px; background: #0b0f1a; z-index: 100; overflow-y: auto; }
+        .nav-item { width: 85px; min-height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; transition: 0.2s; text-align: center; border-radius: 12px; }
+        .nav-item:hover, .nav-item.active { color: #00d2ff; background: rgba(0, 210, 255, 0.1); }
+        .nav-emoji { font-size: 24px; line-height: 1; margin-bottom: 4px; }
+        .nav-text { font-size: 8px; font-weight: 900; text-transform: uppercase; line-height: 1.1; padding: 0 2px; }
+        .flag-icon { width: 24px; height: 16px; object-fit: cover; border-radius: 2px; }
+        .news-card { background: rgba(30, 41, 59, 0.5); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px; text-align: center; margin-left: 95px; }
+    </style>
+</head>
+<body>
+    <header class="h-[80px] line-blue px-8 flex items-center justify-between sticky top-0 bg-[#0b0f1a] z-[110]">
+        <div>
+            <div class="text-3xl font-black title-font italic uppercase tracking-tighter text-white">BLOXD<span class="text-sky-400">X</span></div>
+            <div class="text-[11px] font-black text-sky-400 uppercase tracking-[0.15em] mt-[-3px]">sng community universe</div>
+        </div>
+        <div class="bg-white/5 px-4 py-2 rounded-xl border border-white/10 flex items-center gap-3">
+            <img id="current-flag" src="https://flagcdn.com/w40/ru.png" class="flag-icon">
+            <span id="current-lang-code" class="text-sm font-black text-white">RU</span>
+        </div>
+    </header>
+
+    <nav class="sidebar">
+        <a href="index.html" class="nav-item"><span class="nav-emoji">🏠</span><span class="nav-text" id="nav-home">главная</span></a>
+        <a href="game-news.html" class="nav-item active"><span class="nav-emoji">🗞</span><span class="nav-text" id="nav-gnews">новости игры</span></a>
+        <a href="news.html" class="nav-item"><span class="nav-emoji">🌍</span><span class="nav-text" id="nav-news">новости сервера</span></a>
+        <a href="builds.html" class="nav-item"><span class="nav-emoji">🏗</span><span class="nav-text" id="nav-builds">постройки</span></a>
+        <a href="worlds.html" class="nav-item"><span class="nav-emoji">✨</span><span class="nav-text" id="nav-worlds">интересные миры</span></a>
+        <a href="mods.html" class="nav-item"><span class="nav-emoji">🧩</span><span class="nav-text" id="nav-mods">наши моды</span></a>
+        <a href="partners.html" class="nav-item"><span class="nav-emoji">🤝</span><span class="nav-text" id="nav-partners">партнёры</span></a>
+        <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text" id="nav-champs">чемпионаты</span></a>
+    </nav>
+
+    <main class="ml-[95px] p-8">
+        <h2 id="page-title" class="text-3xl font-black uppercase border-l-8 border-sky-500 pl-6 mb-12 text-white">Новости игры</h2>
+        <div id="content-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="text-sky-400 animate-pulse font-black text-xs uppercase">Загрузка ленты...</div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="flex justify-center gap-12 mb-6">
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition">Сотрудничество</a>
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition">Связаться с нами</a>
+        </div>
+        <p class="text-[10px] text-gray-600 font-bold uppercase opacity-40">© 2024 BloxdX Official. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const langData = {
+            ru: { flag: 'ru', code: 'RU', title: "Новости игры", home: "главная", gnews: "новости игры", news: "новости сервера", builds: "постройки", worlds: "интересные миры", mods: "наши моды", partners: "партнёры", champs: "чемпионаты" },
+            ua: { flag: 'ua', code: 'UA', title: "Новини гри", home: "головна", gnews: "новини гри", news: "новини сервера", builds: "будови", worlds: "цікаві світи", mods: "наші моди", partners: "партнери", champs: "чемпіонати" },
+            en: { flag: 'us', code: 'EN', title: "Game News", home: "home", gnews: "game news", news: "server news", builds: "builds", worlds: "cool worlds", mods: "our mods", partners: "partners", champs: "champs" }
+        };
+
+        const savedLang = localStorage.getItem('selectedLang') || 'ru';
+        const c = langData[savedLang];
+
+        document.getElementById('current-flag').src = `https://flagcdn.com/w40/${c.flag}.png`;
+        document.getElementById('current-lang-code').innerText = c.code;
+        document.getElementById('page-title').innerText = c.title;
+        ['home','gnews','news','builds','worlds','mods','partners','champs'].forEach(id => {
+            if(document.getElementById('nav-'+id)) document.getElementById('nav-'+id).innerText = c[id];
+        });
+
+        async function loadGameNews() {
+            const container = document.getElementById('content-container');
+            try {
+                const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/game_news`);
+                const files = await res.json();
+                if(!Array.isArray(files)) { container.innerHTML = '<div class="text-gray-600 font-bold uppercase italic">Пока пусто...</div>'; return; }
+                
+                let html = '';
+                for(const f of files.reverse()) {
+                    if(!f.name.endsWith('.md')) continue;
+                    const pRes = await fetch(f.download_url);
+                    const txt = await pRes.text();
+                    const meta = txt.split('---')[1];
+                    const body = txt.split('---')[2] || "";
+                    const title = meta.match(/title:\s*(.*)/)[1].replace(/"/g, '');
+                    const img = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
+                    
+                    html += `<div class="news-card">
+                        ${img ? `<img src="${img}" class="w-full h-56 object-cover">` : '<div class="h-56 bg-slate-900/50 flex items-center justify-center font-black text-gray-800 uppercase italic">No image</div>'}
+                        <div class="p-8">
+                            <div class="w-12 h-1 bg-sky-500 mb-6 opacity-50"></div>
+                            <h3 class="font-black text-lg uppercase leading-tight text-white mb-4">${title}</h3>
+                            <div class="text-gray-400 text-sm line-clamp-3">${body.replace(/[#*`]/g, '').substring(0, 150)}...</div>
+                        </div>
+                    </div>`;
+                }
+                container.innerHTML = html;
+            } catch(e) { container.innerHTML = '<div class="text-gray-600 font-bold uppercase italic">Ошибка загрузки.</div>'; }
+        }
+        loadGameNews();
+    </script>
+</body>
+</html>
