@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdX | SNG Universe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        .title-font { font-family: 'Orbitron', sans-serif; }
+        .line-blue { border-bottom: 2px solid #00d2ff; box-shadow: 0 4px 20px rgba(0, 210, 255, 0.15); }
+        #lang-overlay { position: fixed; inset: 0; background: rgba(11, 15, 26, 0.9); backdrop-filter: blur(20px); z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        .lang-card { background: #161e2d; border: 2px solid #00d2ff; padding: 40px; border-radius: 30px; text-align: center; width: 90%; max-width: 400px; }
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 95px; border-right: 1px solid rgba(0,210,255,0.3); display: flex; flex-direction: column; align-items: center; gap: 5px; padding-top: 15px; background: #0b0f1a; z-index: 100; overflow-y: auto; }
+        .nav-item { width: 85px; min-height: 75px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; transition: 0.2s; text-align: center; border-radius: 12px; }
+        .nav-item:hover, .nav-item.active { color: #00d2ff; background: rgba(0, 210, 255, 0.1); }
+        .nav-emoji { font-size: 24px; line-height: 1; margin-bottom: 4px; }
+        .nav-text { font-size: 8px; font-weight: 900; text-transform: lowercase; line-height: 1.1; padding: 0 2px; }
+        .flag-icon { width: 24px; height: 16px; object-fit: cover; border-radius: 2px; }
+        .news-card { background: rgba(30, 41, 59, 0.5); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
+        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px; text-align: center; margin-left: 95px; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-thumb { background: #00d2ff; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <div id="lang-overlay">
+        <div class="lang-card">
+            <h2 class="text-xl font-black mb-8 title-font text-sky-400 uppercase italic">Select Language</h2>
+            <div class="flex flex-col gap-4">
+                <button onclick="confirmLang('en')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/us.png" class="flag-icon"> ENGLISH</button>
+                <button onclick="confirmLang('ru')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/ru.png" class="flag-icon"> РУССКИЙ</button>
+                <button onclick="confirmLang('ua')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/ua.png" class="flag-icon"> УКРАЇНСЬКА</button>
+            </div>
+        </div>
+    </div>
+
+    <header class="h-[80px] line-blue px-8 flex items-center justify-between sticky top-0 bg-[#0b0f1a] z-[110]">
+        <div>
+            <div class="text-3xl font-black title-font italic uppercase tracking-tighter">BLOXD<span class="text-sky-400">X</span></div>
+            <div class="text-[11px] font-black text-sky-400 uppercase tracking-[0.15em] mt-[-3px]">sng community universe</div>
+        </div>
+        <button onclick="showLangSelect()" class="bg-white/5 px-4 py-2 rounded-xl border border-white/10 flex items-center gap-3 hover:border-sky-400 transition">
+            <img id="current-flag" src="https://flagcdn.com/w40/ru.png" class="flag-icon">
+            <span id="current-lang-code" class="text-sm font-black">RU</span>
+        </button>
+    </header>
+
+    <nav class="sidebar">
+        <a href="index.html" class="nav-item active"><span class="nav-emoji">🏠</span><span class="nav-text" id="nav-home">главная</span></a>
+        <a href="game-news.html" class="nav-item"><span class="nav-emoji">🗞</span><span class="nav-text" id="nav-gnews">новости игры</span></a>
+        <a href="news.html" class="nav-item"><span class="nav-emoji">🌍</span><span class="nav-text" id="nav-news">новости сервера</span></a>
+        <a href="builds.html" class="nav-item"><span class="nav-emoji">🏗</span><span class="nav-text" id="nav-builds">постройки</span></a>
+        <a href="worlds.html" class="nav-item"><span class="nav-emoji">✨</span><span class="nav-text" id="nav-worlds">интересные миры</span></a>
+        <a href="mods.html" class="nav-item"><span class="nav-emoji">🧩</span><span class="nav-text" id="nav-mods">наши моды</span></a>
+        <a href="partners.html" class="nav-item"><span class="nav-emoji">🤝</span><span class="nav-text" id="nav-partners">партнёры</span></a>
+        <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text" id="nav-champs">чемпионаты</span></a>
+    </nav>
+
+    <main class="ml-[95px] p-8">
+        <div class="py-12"><h1 class="text-7xl md:text-9xl font-black title-font mb-2 italic uppercase leading-none tracking-tighter text-white">BLOXD<span class="text-sky-400">X</span></h1></div>
+        <div class="max-w-6xl">
+            <h2 id="recent-title" class="text-2xl font-black uppercase border-l-8 border-sky-500 pl-6 mb-10 text-white">Свежие новости</h2>
+            <div id="latest-container" class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div class="text-sky-400 animate-pulse font-black text-xs uppercase italic">Загрузка контента...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="flex justify-center gap-12 mb-6">
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition" id="foot-collab">Сотрудничество</a>
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition" id="foot-contact">Связаться с нами</a>
+        </div>
+        <p class="text-[10px] text-gray-600 font-bold uppercase opacity-40">© 2024 BloxdX Official Portal. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const langData = {
+            ru: { flag: 'ru', code: 'RU', recent: "Свежие новости", collab: "Сотрудничество", contact: "Связаться с нами", home: "главная", gnews: "новости игры", news: "новости сервера", builds: "постройки", worlds: "интересные миры", mods: "наши моды", partners: "партнёры", champs: "чемпионаты" },
+            ua: { flag: 'ua', code: 'UA', recent: "Останні новини", collab: "Співпраця", contact: "Зв'язатися з нами", home: "головна", gnews: "новини гри", news: "новини сервера", builds: "будови", worlds: "цікаві світи", mods: "наші моди", partners: "партнери", champs: "чемпіонати" },
+            en: { flag: 'us', code: 'EN', recent: "Latest News", collab: "Collaboration", contact: "Contact Us", home: "home", gnews: "game news", news: "server news", builds: "builds", worlds: "cool worlds", mods: "our mods", partners: "partners", champs: "champs" }
+        };
+
+        function confirmLang(lang) {
+            localStorage.setItem('selectedLang', lang);
+            document.getElementById('lang-overlay').style.display = 'none';
+            applyLang(lang);
+        }
+        function showLangSelect() { document.getElementById('lang-overlay').style.display = 'flex'; }
+        
+        function applyLang(lang) {
+            const c = langData[lang] || langData.en;
+            document.getElementById('current-flag').src = `https://flagcdn.com/w40/${c.flag}.png`;
+            document.getElementById('current-lang-code').innerText = c.code;
+            document.getElementById('recent-title').innerText = c.recent;
+            document.getElementById('foot-collab').innerText = c.collab;
+            document.getElementById('foot-contact').innerText = c.contact;
+            ['home', 'gnews', 'news', 'builds', 'worlds', 'mods', 'partners', 'champs'].forEach(id => {
+                const el = document.getElementById('nav-' + id);
+                if(el) el.innerText = c[id];
+            });
+        }
+
+        const savedLang = localStorage.getItem('selectedLang');
+        if (savedLang) { document.getElementById('lang-overlay').style.display = 'none'; applyLang(savedLang); }
+
+        async function loadFeed() {
+            const container = document.getElementById('latest-container');
+            const cats = ['game_news', 'news', 'builds', 'worlds', 'mods', 'partners', 'champs'];
+            let all = [];
+            for(const cat of cats) {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${cat}`);
+                    const files = await res.json();
+                    if(Array.isArray(files)) {
+                        for(const f of files) {
+                            if(!f.name.endsWith('.md')) continue;
+                            const pRes = await fetch(f.download_url);
+                            const txt = await pRes.text();
+                            const meta = txt.split('---')[1];
+                            const title = meta.match(/title:\s*(.*)/)[1].replace(/"/g, '');
+                            const img = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
+                            all.push({ title, img, date: f.name });
+                        }
+                    }
+                } catch(e) {}
+            }
+            all.sort((a,b) => b.date.localeCompare(a.date));
+            const top3 = all.slice(0,3);
+            container.innerHTML = top3.length ? top3.map(p => `
+                <div class="news-card">
+                    ${p.img ? `<img src="${p.img}" class="w-full h-48 object-cover">` : '<div class="h-48 bg-slate-900/50 flex items-center justify-center font-black text-gray-700">NO MEDIA</div>'}
+                    <div class="p-6">
+                        <div class="w-10 h-1 bg-sky-500 mb-4 opacity-40"></div>
+                        <h3 class="font-black text-sm uppercase leading-tight text-white">${p.title}</h3>
+                    </div>
+                </div>
+            `).join('') : '<div class="text-gray-700 font-bold uppercase italic text-sm">Пока нет новостей.</div>';
+        }
+        if(savedLang) loadFeed();
+
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) { window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; }); }
+            });
+        }
+    </script>
+</body>
+</html>
