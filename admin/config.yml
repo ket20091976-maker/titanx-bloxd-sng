@@ -3,17 +3,11 @@ backend:
   branch: main
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
-
 collections:
-  - {name: "news", label: "🌍 Новости сервера", folder: "_posts/news", create: true, fields: &fields
-    [{label: "Заголовок", name: "title", widget: "string"},
-     {label: "Дата", name: "date", widget: "datetime"},
-     {label: "Текст", name: "body", widget: "markdown"},
-     {label: "Картинка", name: "image", widget: "image", required: false}]}
-  
-  - {name: "builds", label: "🏗 Постройки", folder: "_posts/builds", create: true, fields: *fields}
-  - {name: "worlds", label: "✨ Интересные миры", folder: "_posts/worlds", create: true, fields: *fields}
-  - {name: "mods", label: "🧩 Наши моды", folder: "_posts/mods", create: true, fields: *fields}
-  - {name: "partners", label: "🤝 Партнёры", folder: "_posts/partners", create: true, fields: *fields}
-  - {name: "champs", label: "🏆 Чемпионаты", folder: "_posts/champs", create: true, fields: *fields}
-  - {name: "rules", label: "📜 Правила/О нас", folder: "_posts/rules", create: true, fields: *fields}
+  - {name: "game_news", label: "🗞 Новости игры", folder: "_posts/game_news", create: true, fields: &f [{label: "Заголовок", name: "title", widget: "string"},{label: "Дата", name: "date", widget: "datetime"},{label: "Текст", name: "body", widget: "markdown"},{label: "Картинка", name: "image", widget: "image", required: false}]}
+  - {name: "news", label: "🌍 Новости сервера", folder: "_posts/news", create: true, fields: *f}
+  - {name: "builds", label: "🏗 Постройки", folder: "_posts/builds", create: true, fields: *f}
+  - {name: "worlds", label: "✨ Интересные миры", folder: "_posts/worlds", create: true, fields: *f}
+  - {name: "mods", label: "🧩 Наши моды", folder: "_posts/mods", create: true, fields: *f}
+  - {name: "partners", label: "🤝 Партнёры", folder: "_posts/partners", create: true, fields: *f}
+  - {name: "champs", label: "🏆 Чемпионаты", folder: "_posts/champs", create: true, fields: *f}
