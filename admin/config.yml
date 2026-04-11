@@ -4,7 +4,7 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 collections:
-  - {name: "game_news", label: "🗞 Новости игры", folder: "_posts/game_news", create: true, fields: &f [{label: "Заголовок", name: "title", widget: "string"},{label: "Дата", name: "date", widget: "datetime"},{label: "Текст", name: "body", widget: "markdown"},{label: "Картинка", name: "image", widget: "image", required: false}]}
+  - {name: "game_news", label: "🗞 Новости игры", folder: "_posts/game_news", create: true, slug: "{{year}}-{{month}}-{{day}}-{{slug}}", fields: &f [{label: "Заголовок", name: "title", widget: "string"},{label: "Дата", name: "date", widget: "datetime"},{label: "Текст", name: "body", widget: "markdown"},{label: "Картинка", name: "image", widget: "image", required: false}]}
   - {name: "news", label: "🌍 Новости сервера", folder: "_posts/news", create: true, fields: *f}
   - {name: "builds", label: "🏗 Постройки", folder: "_posts/builds", create: true, fields: *f}
   - {name: "worlds", label: "✨ Интересные миры", folder: "_posts/worlds", create: true, fields: *f}
