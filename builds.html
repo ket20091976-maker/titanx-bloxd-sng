@@ -1,13 +1,130 @@
-<!-- Скопируй весь код из index.html, но замени раздел <main> на этот: -->
-<main class="ml-[80px] p-8">
-    <h1 class="text-4xl font-black title-font mb-12 italic uppercase border-l-8 border-sky-500 pl-6" id="page-category-title">Постройки</h1>
-    <div id="category-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <!-- Сюда попадут только посты из этой категории -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BloxdX | SNG Universe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;700;900&display=swap');
+        body { background-color: #0b0f1a; color: white; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        .title-font { font-family: 'Orbitron', sans-serif; }
+        .line-blue { border-bottom: 2px solid #00d2ff; }
+        #lang-overlay { position: fixed; inset: 0; background: rgba(11, 15, 26, 0.95); backdrop-filter: blur(25px); z-index: 5000; display: none; align-items: center; justify-content: center; }
+        .lang-card { background: #161e2d; border: 2px solid #00d2ff; padding: 40px; border-radius: 30px; text-align: center; width: 90%; max-width: 400px; }
+        .sidebar { position: fixed; left: 0; top: 80px; bottom: 0; width: 90px; border-right: 1px solid rgba(0,210,255,0.3); display: flex; flex-direction: column; align-items: center; gap: 8px; padding-top: 15px; background: #0b0f1a; z-index: 100; overflow-y: auto; }
+        .nav-item { width: 80px; min-height: 70px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #ffffff; text-decoration: none; transition: 0.2s; text-align: center; }
+        .nav-item:hover, .nav-item.active { color: #00d2ff; background: rgba(0, 210, 255, 0.1); border-radius: 10px; }
+        .nav-emoji { font-size: 26px; line-height: 1; margin-bottom: 4px; }
+        .nav-text { font-size: 9px; font-weight: 900; text-transform: lowercase; line-height: 1.1; color: inherit; }
+        .news-card { background: rgba(30, 41, 59, 0.5); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .flag-icon { width: 24px; height: 16px; object-fit: cover; }
+        footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px; text-align: center; margin-left: 90px; }
+    </style>
+</head>
+<body>
+    <div id="lang-overlay">
+        <div class="lang-card">
+            <h2 class="text-xl font-black mb-8 title-font text-sky-400 italic uppercase">Select Language</h2>
+            <div class="flex flex-col gap-4">
+                <button onclick="confirmLang('en')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/us.png" class="flag-icon"> ENGLISH</button>
+                <button onclick="confirmLang('ru')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/ru.png" class="flag-icon"> РУССКИЙ</button>
+                <button onclick="confirmLang('ua')" class="bg-slate-800 border border-slate-700 p-4 rounded-2xl hover:border-sky-400 font-black flex items-center justify-center gap-4 transition"><img src="https://flagcdn.com/w40/ua.png" class="flag-icon"> УКРАЇНСЬКА</button>
+            </div>
+        </div>
     </div>
-</main>
-
-<script>
-    // В скрипте измени NEWS_PATH на нужную папку (например 'builds')
-    const CATEGORY = 'builds'; 
-    // Остальная логика загрузки такая же как в news.html, который мы делали раньше.
-</script>
+    <header class="h-[80px] line-blue px-8 flex items-center justify-between sticky top-0 bg-[#0b0f1a] z-[110]">
+        <div>
+            <div class="text-3xl font-black title-font italic uppercase tracking-tighter">BLOXD<span class="text-sky-400">X</span></div>
+            <div class="text-[11px] font-black text-sky-400 uppercase tracking-[0.15em] mt-[-3px]">sng community universe</div>
+        </div>
+        <button onclick="showLangSelect()" class="bg-white/5 px-4 py-2 rounded-xl border border-white/10 flex items-center gap-3">
+            <img id="current-flag" src="https://flagcdn.com/w40/ru.png" class="flag-icon">
+            <span id="current-lang-code" class="text-sm font-black">RU</span>
+        </button>
+    </header>
+    <nav class="sidebar">
+        <a href="index.html" class="nav-item" id="link-index"><span class="nav-emoji">🏠</span><span class="nav-text" id="nav-home">главная</span></a>
+        <a href="game-news.html" class="nav-item" id="link-game-news"><span class="nav-emoji">🗞</span><span class="nav-text" id="nav-gnews">новости игры</span></a>
+        <a href="news.html" class="nav-item" id="link-news"><span class="nav-emoji">🌍</span><span class="nav-text" id="nav-news">новости сервера</span></a>
+        <a href="builds.html" class="nav-item" id="link-builds"><span class="nav-emoji">🏗</span><span class="nav-text" id="nav-builds">постройки</span></a>
+        <a href="worlds.html" class="nav-item" id="link-worlds"><span class="nav-emoji">✨</span><span class="nav-text" id="nav-worlds">миры</span></a>
+        <a href="mods.html" class="nav-item" id="link-mods"><span class="nav-emoji">🧩</span><span class="nav-text" id="nav-mods">моды</span></a>
+        <a href="partners.html" class="nav-item" id="link-partners"><span class="nav-emoji">🤝</span><span class="nav-text" id="nav-partners">партнёры</span></a>
+        <a href="championships.html" class="nav-item" id="link-championships"><span class="nav-emoji">🏆</span><span class="nav-text" id="nav-champs">чемпионаты</span></a>
+    </nav>
+    <main class="ml-[90px] p-8">
+        <div id="hero-section" class="py-12"><h1 class="text-7xl font-black title-font italic uppercase text-white tracking-tighter">BLOXD<span class="text-sky-400">X</span></h1></div>
+        <h2 id="page-title" class="text-2xl font-black uppercase border-l-8 border-sky-500 pl-6 mb-10 text-white">Загрузка...</h2>
+        <div id="content-container" class="grid grid-cols-1 md:grid-cols-3 gap-10"></div>
+    </main>
+    <footer>
+        <div class="flex justify-center gap-12 mb-6">
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition" id="foot-collab">Сотрудничество</a>
+            <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition" id="foot-contact">Связаться с нами</a>
+        </div>
+        <p class="text-[10px] text-gray-600 font-bold uppercase opacity-40">© 2024 BloxdX Official. All rights reserved.</p>
+    </footer>
+    <script>
+        const langData = {
+            ru: { flag: 'ru', code: 'RU', recent: "Свежие новости", collab: "Сотрудничество", contact: "Связаться с нами", home: "главная", gnews: "новости игры", news: "новости сервера", builds: "постройки", worlds: "миры", mods: "моды", partners: "партнёры", champs: "чемпионаты" },
+            ua: { flag: 'ua', code: 'UA', recent: "Останні новини", collab: "Співпраця", contact: "Зв'язатися з нами", home: "головна", gnews: "новини гри", news: "новини сервера", builds: "будови", worlds: "світи", mods: "моди", partners: "партнери", champs: "чемпіонати" },
+            en: { flag: 'us', code: 'EN', recent: "Latest News", collab: "Collaboration", contact: "Contact Us", home: "home", gnews: "game news", news: "server news", builds: "builds", worlds: "worlds", mods: "mods", partners: "partners", champs: "champs" }
+        };
+        const pageConfigs = {
+            "index.html": { title: "recent", cats: ['game_news','news','builds','worlds','mods','partners','champs'], limit: 3 },
+            "game-news.html": { title: "gnews", cats: ['game_news'], limit: 20 },
+            "news.html": { title: "news", cats: ['news'], limit: 20 },
+            "builds.html": { title: "builds", cats: ['builds'], limit: 20 },
+            "worlds.html": { title: "worlds", cats: ['worlds'], limit: 20 },
+            "mods.html": { title: "mods", cats: ['mods'], limit: 20 },
+            "partners.html": { title: "partners", cats: ['partners'], limit: 20 },
+            "championships.html": { title: "champs", cats: ['champs'], limit: 20 }
+        };
+        const fileName = window.location.pathname.split("/").pop() || "index.html";
+        const config = pageConfigs[fileName] || pageConfigs["index.html"];
+        function confirmLang(l){ localStorage.setItem('selectedLang',l); location.reload(); }
+        function showLangSelect(){ document.getElementById('lang-overlay').style.display='flex'; }
+        const savedLang = localStorage.getItem('selectedLang');
+        if(!savedLang) { showLangSelect(); } else {
+            const c = langData[savedLang];
+            document.getElementById('current-flag').src = `https://flagcdn.com/w40/${c.flag}.png`;
+            document.getElementById('current-lang-code').innerText = c.code;
+            document.getElementById('page-title').innerText = c[config.title];
+            document.getElementById('foot-collab').innerText = c.collab;
+            document.getElementById('foot-contact').innerText = c.contact;
+            ['home','gnews','news','builds','worlds','mods','partners','champs'].forEach(k => { if(document.getElementById('nav-'+k)) document.getElementById('nav-'+k).innerText = c[k]; });
+            if(fileName !== "index.html" && fileName !== "") document.getElementById('hero-section').style.display = 'none';
+            const linkId = 'link-' + fileName.replace('.html','');
+            if(document.getElementById(linkId)) document.getElementById(linkId).classList.add('active');
+        }
+        async function loadContent() {
+            const container = document.getElementById('content-container');
+            let all = [];
+            for (const cat of config.cats) {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${cat}`);
+                    const files = await res.json();
+                    if (Array.isArray(files)) {
+                        for (const f of files) {
+                            if(!f.name.endsWith('.md')) continue;
+                            const pRes = await fetch(f.download_url);
+                            const txt = await pRes.text();
+                            const meta = txt.split('---')[1];
+                            const title = meta.match(/title:\s*(.*)/)[1].replace(/"/g, '');
+                            const img = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
+                            all.push({ title, img, date: f.name });
+                        }
+                    }
+                } catch (e) {}
+            }
+            all.sort((a, b) => b.date.localeCompare(a.date));
+            const display = all.slice(0, config.limit);
+            container.innerHTML = display.length ? display.map(p => `<div class="news-card">${p.img ? `<img src="${p.img}" class="w-full h-48 object-cover">` : '<div class="h-48 bg-slate-900/50 flex items-center justify-center text-[10px] text-gray-700 font-black italic">NO MEDIA</div>'}<div class="p-6"><div class="w-10 h-1 bg-sky-500 mb-4 opacity-40"></div><h3 class="font-black text-sm uppercase text-white">${p.title}</h3></div></div>`).join('') : '<div class="text-gray-600 font-bold uppercase italic">Пусто...</div>';
+        }
+        if(savedLang) loadContent();
+    </script>
+</body>
+</html>
