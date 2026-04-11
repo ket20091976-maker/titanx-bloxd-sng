@@ -63,3 +63,100 @@
         <a href="partners.html" class="nav-item"><span class="nav-emoji">🤝</span><span class="nav-text">partners</span></a>
         <a href="championships.html" class="nav-item"><span class="nav-emoji">🏆</span><span class="nav-text">champs</span></a>
     </nav>
+<main class="ml-[75px] p-8">
+        <div class="py-10">
+            <h1 class="text-6xl font-black title-font italic uppercase leading-none mb-2">BLOXD<span class="text-sky-400">X</span></h1>
+            <p class="text-sky-400 font-bold tracking-[0.4em] text-[10px] uppercase opacity-70">SNG Elite Portal</p>
+        </div>
+
+        <div class="max-w-6xl">
+            <h2 id="recent-title" class="text-2xl font-black uppercase mb-8 border-l-4 border-sky-500 pl-4">Свежие новости</h2>
+            <div id="latest-container" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="text-sky-400 animate-pulse font-bold uppercase text-xs">Загрузка ленты...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="flex justify-center flex-wrap gap-4">
+            <a href="https://t.me/Dzazcc" target="_blank" class="foot-link" id="foot-collab">Сотрудничество</a>
+            <a href="https://t.me/Dzazcc" target="_blank" class="foot-link" id="foot-contact">Связаться с нами</a>
+        </div>
+        <p class="mt-6 opacity-30 text-[9px] uppercase tracking-widest">© 2024 BloxdX Official. Created with love for SNG community.</p>
+    </footer>
+
+    <script>
+        const translations = {
+            ru: { recent: "Свежие новости", collab: "Сотрудничество", contact: "Связаться с нами" },
+            ua: { recent: "Останні новини", collab: "Співпраця", contact: "Зв'язатися з нами" },
+            en: { recent: "Latest News", collab: "Collaboration", contact: "Contact Us" }
+        };
+
+        function confirmLang(lang) {
+            localStorage.setItem('selectedLang', lang);
+            document.getElementById('lang-overlay').style.display = 'none';
+            applyLang(lang);
+        }
+
+        function showLangSelect() {
+            document.getElementById('lang-overlay').style.display = 'flex';
+        }
+
+        function applyLang(lang) {
+            const t = translations[lang] || translations.en;
+            document.getElementById('recent-title').innerText = t.recent;
+            document.getElementById('foot-collab').innerText = t.collab;
+            document.getElementById('foot-contact').innerText = t.contact;
+        }
+
+        const savedLang = localStorage.getItem('selectedLang');
+        if (savedLang) {
+            document.getElementById('lang-overlay').style.display = 'none';
+            applyLang(savedLang);
+        }
+
+        async function loadAllNews() {
+            const sections = ['news', 'builds', 'worlds', 'mods', 'partners', 'champs', 'rules'];
+            const container = document.getElementById('latest-container');
+            let allPosts = [];
+
+            for (const section of sections) {
+                try {
+                    const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${section}`);
+                    const files = await res.json();
+                    if (Array.isArray(files)) {
+                        for (const file of files) {
+                            const postRes = await fetch(file.download_url);
+                            const text = await postRes.text();
+                            const parts = text.split('---');
+                            const meta = parts[1];
+                            const title = meta.match(/title:\s*(.*)/)[1].replace(/"/g, '');
+                            const image = meta.match(/image:\s*(.*)/)?.[1].replace(/"/g, '').trim();
+                            allPosts.push({ title, image, date: file.name });
+                        }
+                    }
+                } catch (e) {}
+            }
+
+            allPosts.sort((a, b) => b.date.localeCompare(a.date));
+            const displayPosts = allPosts.slice(0, 3);
+
+            if (displayPosts.length === 0) {
+                container.innerHTML = '<div class="text-gray-600 text-xs italic">Пока публикаций нет. Будь первым!</div>';
+                return;
+            }
+
+            container.innerHTML = displayPosts.map(p => `
+                <div class="news-card">
+                    ${p.image ? `<img src="${p.image}" class="w-full h-44 object-cover">` : '<div class="h-44 bg-slate-900 flex items-center justify-center text-[10px] text-gray-700 font-black tracking-widest">NO IMAGE</div>'}
+                    <div class="p-5">
+                        <div class="w-8 h-1 bg-sky-500 mb-4 opacity-50"></div>
+                        <h3 class="font-bold text-sm uppercase leading-tight text-gray-200">${p.title}</h3>
+                    </div>
+                </div>
+            `).join('');
+        }
+        loadAllNews();
+    </script>
+</body>
+</html>
