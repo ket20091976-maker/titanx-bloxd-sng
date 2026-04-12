@@ -134,3 +134,53 @@
     </script>
 </body>
 </html>
+<!-- Блок соцсетей BloxdX -->
+<style>
+    .social-sidebar-fixed {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 9999;
+    }
+    .soc-btn {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        color: white !important;
+        text-decoration: none !important;
+        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .soc-btn:hover {
+        transform: scale(1.15);
+        filter: brightness(1.2);
+        border-color: #00d2ff;
+    }
+    .soc-tg { background: #0088cc; }
+    .soc-ds { background: #5865F2; }
+    
+    /* Скрытие на очень маленьких экранах, чтобы не мешали контенту */
+    @media (max-width: 600px) {
+        .social-sidebar-fixed { right: 10px; }
+        .soc-btn { width: 40px; height: 40px; font-size: 20px; }
+    }
+</style>
+
+<div class="social-sidebar-fixed">
+    <a href="https://t.me/bloxdioSNGRU" target="_blank" class="soc-btn soc-tg" title="Telegram">
+        <i class="fab fa-telegram-plane"></i>
+    </a>
+    <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="soc-btn soc-ds" title="Discord">
+        <i class="fab fa-discord"></i>
+    </a>
+</div>
+<!-- Конец блока соцсетей -->
