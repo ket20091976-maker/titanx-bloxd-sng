@@ -22,6 +22,7 @@
         .news-card { background: rgba(30, 41, 59, 0.5); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; transition: 0.3s; }
         .flag-icon { width: 24px; height: 16px; object-fit: cover; }
         footer { border-top: 1px solid rgba(255,255,255,0.05); padding: 40px; text-align: center; margin-left: 95px; }
+        .lyket-container { margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
     </style>
 </head>
 <body>
@@ -72,7 +73,19 @@
             <a href="https://t.me/Dzazcc" target="_blank" class="text-[12px] font-black text-sky-400 hover:text-white uppercase tracking-widest transition" id="foot-contact">Связаться с нами</a>
         </div>
         <p class="text-[10px] text-gray-600 font-bold uppercase opacity-40">© 2024 BloxdX Official Portal. All rights reserved.</p>
-    </footer>
+    </footer><div class="social-sidebar-fixed">
+        <a href="https://t.me/bloxdioSNGRU" target="_blank" class="soc-btn soc-tg" title="Telegram"><i class="fab fa-telegram-plane"></i></a>
+        <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="soc-btn soc-ds" title="Discord"><i class="fab fa-discord"></i></a>
+    </div>
+
+    <style>
+        .social-sidebar-fixed { position: fixed; right: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 15px; z-index: 9999; }
+        .soc-btn { width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; color: white !important; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .soc-btn:hover { transform: scale(1.15); border-color: #00d2ff; }
+        .soc-tg { background: #0088cc; }
+        .soc-ds { background: #5865F2; }
+        @media (max-width: 600px) { .social-sidebar-fixed { right: 10px; } .soc-btn { width: 40px; height: 40px; font-size: 20px; } }
+    </style>
 
     <script>
         const langData = {
@@ -108,7 +121,6 @@
             const container = document.getElementById('latest-container');
             const cats = ['game_news', 'news', 'builds', 'worlds', 'mods', 'partners', 'champs'];
             let all = [];
-
             for(const cat of cats) {
                 try {
                     const res = await fetch(`https://api.github.com/repos/ket20091976-maker/titanx-bloxd-sng/contents/_posts/${cat}`);
@@ -126,78 +138,31 @@
                     }
                 } catch(e) {}
             }
-            
-            // Сортировка по дате (самые новые вверху)
             all.sort((a,b) => b.date.localeCompare(a.date));
             const top3 = all.slice(0,3);
-            
-            container.innerHTML = top3.length ? top3.map(p => `
+            container.innerHTML = top3.length ? top3.map(p => {
+                const postId = p.title.replace(/\s+/g, '-').toLowerCase();
+                return `
                 <div class="news-card">
                     ${p.img ? `<img src="${p.img}" class="w-full h-48 object-cover">` : '<div class="h-48 bg-slate-900/50 flex items-center justify-center font-black text-gray-700">NO MEDIA</div>'}
                     <div class="p-6">
                         <div class="w-10 h-1 bg-sky-500 mb-4 opacity-40"></div>
-                        <h3 class="font-black text-sm uppercase leading-tight text-white">${p.title}</h3>
+                        <h3 class="font-black text-sm uppercase leading-tight text-white mb-4">${p.title}</h3>
+                        <div class="lyket-container">
+                            <div data-lyket-type="updown" data-lyket-id="${postId}" data-lyket-namespace="bloxd-project" data-lyket-template="twitter"></div>
+                        </div>
                     </div>
-                </div>
-            `).join('') : '<div class="text-gray-700 font-bold uppercase italic text-sm">Пока нет новостей.</div>';
+                </div>`;
+            }).join('') : '<div class="text-gray-700 font-bold uppercase italic text-sm">Пока нет новостей.</div>';
+            if (window.lyket) { window.lyket.init(); }
         }
         if(savedLang) loadFeed();
-
         if (window.netlifyIdentity) {
             window.netlifyIdentity.on("init", user => {
                 if (!user) { window.netlifyIdentity.on("login", () => { document.location.href = "/admin/"; }); }
             });
         }
     </script>
+    <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_962949eb236ee9329513751f637266"></script>
 </body>
 </html>
-<!-- Блок соцсетей BloxdX -->
-<style>
-    .social-sidebar-fixed {
-        position: fixed;
-        right: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        z-index: 9999;
-    }
-    .soc-btn {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 24px;
-        color: white !important;
-        text-decoration: none !important;
-        transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-        border: 1px solid rgba(255,255,255,0.1);
-    }
-    .soc-btn:hover {
-        transform: scale(1.15);
-        filter: brightness(1.2);
-        border-color: #00d2ff;
-    }
-    .soc-tg { background: #0088cc; }
-    .soc-ds { background: #5865F2; }
-    
-    /* Скрытие на очень маленьких экранах, чтобы не мешали контенту */
-    @media (max-width: 600px) {
-        .social-sidebar-fixed { right: 10px; }
-        .soc-btn { width: 40px; height: 40px; font-size: 20px; }
-    }
-</style>
-
-<div class="social-sidebar-fixed">
-    <a href="https://t.me/bloxdioSNGRU" target="_blank" class="soc-btn soc-tg" title="Telegram">
-        <i class="fab fa-telegram-plane"></i>
-    </a>
-    <a href="https://discord.gg/sbnTQP4M4" target="_blank" class="soc-btn soc-ds" title="Discord">
-        <i class="fab fa-discord"></i>
-    </a>
-</div>
-<!-- Конец блока соцсетей -->
